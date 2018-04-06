@@ -27,8 +27,7 @@ app.get('/cancelEdit', (req, res) =>{
 
  app.get('/delete/:id', (req, res) =>{
     for (let i = 0; i < users.length; i++){
-        if (thelastcity
-            === users[i].id){
+        if (+req.params.id === users[i].id){
             users.splice(i, 1);
         }
     }
@@ -85,20 +84,20 @@ app.post('/users', (req, res) =>{
     });
 });
 
-process.on('SIGTERM', ()=>{
-    fs.writeFile('./userInformation.json', users, (err)=>{
-        if (err) throw err ;
-    });
-    process.exit(0);
-});
-
-// when i press ctrl c
-process.on('SIGINT', ()=>{
-    fs.writeFile('./userInformation.json', 'hello', (err)=>{
-        if (err) throw err ;
-    });
-    process.exit(0);
-});
+// process.on('SIGTERM', ()=>{
+//     fs.writeFile('./userInformation.json', users, (err)=>{
+//         if (err) throw err ;
+//     });
+//     process.exit(0);
+// });
+//
+// // when i press ctrl c
+// process.on('SIGINT', ()=>{
+//     fs.writeFile('./userInformation.json', 'hello', (err)=>{
+//         if (err) throw err ;
+//     });
+//     process.exit(0);
+// });
 
 
 app.listen(port,() =>{
