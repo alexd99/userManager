@@ -1,0 +1,22 @@
+extends layout/layout
+block headContent
+    title Add Person
+
+block bodyContent
+    h1 Add Person
+    form(method='POST', action='/viewUsers')
+        div(class='rowColumn')
+            div(class='row')
+                label(for='userId') User ID
+                input(id='userId', class='formInput', type='text', name='userID' required, value='ad6573')
+            div(class='row')
+                label(for='name') Name
+                input(id='name', class='formInput', type='text', name='name' required, value='Alex')
+            div(class='row')
+                label(for='email') Email
+                input(id='email', class='formInput', type='email', name='email' required, value='alex@alex.com')
+            div(class='row')
+                label(for='age') Age
+                input(id='age', class='formInput', type='number' max='120', name='age' required value=18)
+            div
+                input(type='submit', value='Add', id='addPerson')

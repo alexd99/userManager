@@ -1,0 +1,26 @@
+extends layout/layout
+block headContent
+    title View People
+
+block bodyContent
+    h1 View People
+    table
+        tr
+            th User ID
+            th Name
+            th Email
+            th Age
+            th
+            th
+        each data in usersInfo
+            tr
+                td= data.userId
+                td= data.name
+                td= data.email
+                td= data.age
+                td
+                    a(href='/edit/'+data.id)= 'Edit'
+                td
+                    a(href='/delete/'+data.id+'') Delete
+    button(class='addUser')
+        a(href='http://localhost:2000/', id='back') Add New User

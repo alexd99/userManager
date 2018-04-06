@@ -1,0 +1,27 @@
+extends layout/layout
+block headContent
+    title Edit User
+
+block bodyContent
+    h1 Editing #{info.name}'s Information
+    form(method='POST', action='/users')
+        div(class='rowColumn')
+            input(type='text', value=info.id, name='id' style='display: none;')
+            div(class='row')
+                label(for='userId') User ID
+                input(id='userId', class='formInput', type='text', name='userID', value=info.userId, required)
+            div(class='row')
+                label(for='name') Name
+                input(id='name', class='formInput', type='text', name='name' value=info.name, required)
+            div(class='row')
+                label(for='email') Email
+                input(id='email', class='formInput', type='email', name='email' value=info.email, required)
+            div(class='row')
+                label(for='age') Age
+                input(id='age', class='formInput', type='number' max='120' name='age', value=info.age, required)
+            div(class='editButtonBox')
+                input(type='submit', class='editButton')
+                a(href='/cancelEdit')
+                    button(class='editButton') Cancel
+
+            //a(href='/users/'+info.id+'') Edit
