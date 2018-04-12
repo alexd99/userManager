@@ -15,8 +15,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 
-app.get('/', (req, res) =>{
-    res.render('form');
+app.get('/', (req, res) => {
+    let userId = "";
+    let possibleIDs = "ABCDEFGHIJKLMNOPQRSTUVWXY0123456789";
+
+    for (let i = 0; i < 10; i++){
+        userId += possibleIDs.charAt(Math.floor(Math.random() * possibleIDs.length));
+    }
+    res.render('form',  {
+        uid: userId
+    });
 });
 
 app.get('/cancelEdit', (req, res) =>{
