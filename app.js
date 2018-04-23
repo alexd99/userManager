@@ -1,12 +1,17 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const fs = require('fs');
 const port = process.env.POST || 2000;
 
-let app =  express();
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+// Connection URL
+const url = 'mongodb://localhost:27017';
+const dbName = 'userManager';
+
 let users = [];
-let id = 0;
+
+let app =  express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -15,7 +20,27 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 
-app.get('/', (req, res) => {
+app.get('/', (req,res) =>{
+    MongoClient.connect(url, function(err, client) {
+        const db = client.db(dbName);
+        const collection = db.collection('users');
+
+        assert.equal(null, err);
+        console.log("Connected successfully to server");
+
+        collection.find({}).toArray(function(err, docs) {
+            assert.equal(err, null);
+            console.log("Found the following records");
+            console.log(docs);
+            res.render('allUsers', ({
+                usersInfo: docs
+            }));
+        });
+        client.close();
+    });
+});
+
+app.get('/addUser', (req, res) => {
     let userId = "";
     let possibleIDs = "ABCDEFGHIJKLMNOPQRSTUVWXY0123456789";
 
@@ -60,19 +85,34 @@ app.get('/edit/:id', (req, res) =>{
 
 app.post('/viewUsers', (req,res) =>{
 
-    let newUser = {
-        id: id,
-        userId: req.body.userID,
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age
-    };
-    id++;
+    MongoClient.connect(url, function(err, client) {
+        const db = client.db(dbName);
+        const collection = db.collection('users');
+        let newUser = {
+            userId: req.body.userID,
+            name: req.body.name,
+            email: req.body.email,
+            age: req.body.age
+        };
 
-    users.push(newUser);
-    res.render('allUsers', ({
-        usersInfo: users
-    }));
+        assert.equal(null, err);
+        console.log("Connected successfully to server");
+
+        collection.insertOne({newUser}, function(err, result) {
+            assert.equal(err, null);
+            console.log("Inserted document into the collection");
+        });
+        collection.find({}).toArray(function(err, docs) {
+            assert.equal(err, null);
+            console.log("Found the following records");
+            console.log(docs);
+            res.render('allUsers', ({
+                usersInfo: docs
+            }));
+        });
+        client.close();
+    });
+
 });
 
 app.post('/users', (req, res) =>{
@@ -91,22 +131,6 @@ app.post('/users', (req, res) =>{
         usersInfo: users
     });
 });
-
-// process.on('SIGTERM', ()=>{
-//     fs.writeFile('./userInformation.json', users, (err)=>{
-//         if (err) throw err ;
-//     });
-//     process.exit(0);
-// });
-//
-// // when i press ctrl c
-// process.on('SIGINT', ()=>{
-//     fs.writeFile('./userInformation.json', 'hello', (err)=>{
-//         if (err) throw err ;
-//     });
-//     process.exit(0);
-// });
-
 
 app.listen(port,() =>{
     console.log(`Listening on port ${port}`);
