@@ -1,1 +1,3 @@
-# userManager a simple user manager with a mongod back end.
+# userManager 
+
+a simple user manager with a mongod back end.
