@@ -2,14 +2,10 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const port = process.env.POST || 2000;
-
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
-// Connection URL
 const url = 'mongodb://localhost:27017';
 const dbName = 'userManager';
-
-let users = [];
 
 let app =  express();
 
@@ -162,7 +158,6 @@ app.post('/users', (req, res) =>{
 
         collection.updateOne(query, newValues, function(err, res) {
             if (err) throw err;
-            console.log("1 document updated");
         });
         collection.deleteMany({"newUser.userId": null}, function(err, result) {
             assert.equal(err, null);
