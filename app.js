@@ -39,6 +39,108 @@ app.get('/', (req,res) =>{
         client.close();
     });
 });
+let sorted = 0;
+app.get('/sort/*/:id', (req,res) =>{
+    console.log(req.params.id);
+
+    MongoClient.connect(url, function(err, client) {
+        const db = client.db(dbName);
+        const collection = db.collection('users');
+
+        assert.equal(null, err);
+        collection.find({}).toArray(function(err, docs) {
+            assert.equal(err, null);
+
+            let allUsers = docs.map(user =>
+                ({
+                    _id: user._id,
+                    userId: user.newUser.userId,
+                    name: user.newUser.name,
+                    email: user.newUser.email,
+                    age: user.newUser.age,
+
+                }));
+
+            if (req.params.id === 'name') {
+
+                switch (sorted) {
+                    case 0:
+                        allUsers.sort((a, b) => {
+                            if (a.name < b.name) {
+                                return -1;
+                            }
+                            else if (a.name > b.name) {
+                                return 1
+                            }
+                            else {
+                                return 0
+                            }
+                        });
+
+                        sorted = 1;
+                        break;
+                    case 1:
+                        allUsers.sort((a, b) => {
+                            if (a.name > b.name) {
+                                return -1;
+                            }
+                            else if (a.name < b.name) {
+                                return 1
+                            }
+                            else {
+                                return 0
+                            }
+                        });
+
+                        sorted = 0;
+
+                }
+            }
+
+            else if (req.params.id === 'userId') {
+
+                switch (sorted) {
+                    case 0:
+                        allUsers.sort((a, b) => {
+                            if (a.userId < b.userId) {
+                                return -1;
+                            }
+                            else if (a.userId > b.userId) {
+                                return 1
+                            }
+                            else {
+                                return 0
+                            }
+                        });
+
+                        sorted = 1;
+                        break;
+                    case 1:
+                        allUsers.sort((a, b) => {
+                            if (a.userId > b.userId) {
+                                return -1;
+                            }
+                            else if (a.userId < b.userId) {
+                                return 1
+                            }
+                            else {
+                                return 0
+                            }
+                        });
+
+                        sorted = 0;
+
+                }
+            }
+
+            console.log(allUsers);
+            res.render('allUsers', ({
+                usersInfo: allUsers
+            }));
+        });
+        client.close();
+    });
+});
 
 app.get('/addUser', (req, res) => {
     let userId = "";
