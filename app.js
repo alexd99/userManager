@@ -26,14 +26,18 @@ app.get('/', (req,res) =>{
         const collection = db.collection('users');
 
         assert.equal(null, err);
-        console.log("Connected successfully to server");
-
         collection.find({}).toArray(function(err, docs) {
             assert.equal(err, null);
-            console.log("Found the following records");
-            console.log(docs);
             res.render('allUsers', ({
-                usersInfo: docs
+                usersInfo: docs.map(user =>
+                  ({
+                    _id: user._id,
+                    userId: user.newUser.userId,
+                    name: user.newUser.name,
+                    email: user.newUser.email,
+                    age: user.newUser.age,
+
+                  }))
             }));
         });
         client.close();
@@ -53,33 +57,57 @@ app.get('/addUser', (req, res) => {
 });
 
 app.get('/cancelEdit', (req, res) =>{
-    res.render('allUsers', {
-        usersInfo: users
-    });
+    res.redirect('/')
 });
 
- app.get('/delete/:id', (req, res) =>{
-    for (let i = 0; i < users.length; i++){
-        if (+req.params.id === users[i].id){
-            users.splice(i, 1);
-        }
-    }
-    res.render('allUsers',  {
-        usersInfo: users
+app.get('/delete/:id', (req, res) =>{
+
+    MongoClient.connect(url, function(err, client) {
+        const db = client.db(dbName);
+        const collection = db.collection('users');
+        assert.equal(null, err);
+
+        collection.deleteOne({"newUser.userId": req.params.id}, function(err, result) {
+            assert.equal(err, null);
+        });
+        client.close();
+        res.redirect('/')
     });
+
 });
 
 app.get('/edit/:id', (req, res) =>{
 
-    let user;
 
-    for(let i = 0; i < users.length; i++){
-        if (+req.params.id === users[i].id){
-            user = users[i];
-        }
-    }
-    res.render('edit', {
-        info: user
+    MongoClient.connect(url, function(err, client) {
+        const db = client.db(dbName);
+        const collection = db.collection('users');
+        let newUser = {
+            userId: req.body.userID,
+            name: req.body.name,
+            email: req.body.email,
+            age: req.body.age
+        };
+        assert.equal(null, err);
+        collection.insertOne({newUser}, function(err, result) {
+            assert.equal(err, null);
+        });
+        collection.find({"newUser.userId": req.params.id}).toArray(function(err, docs) {
+            assert.equal(err, null);
+
+            res.render('edit', ({
+                data: docs.map(user =>
+                    ({
+                        _id: user._id,
+                        userId: user.newUser.userId,
+                        name: user.newUser.name,
+                        email: user.newUser.email,
+                        age: user.newUser.age,
+
+                    }))
+            }));
+        });
+        client.close();
     });
 });
 
@@ -94,20 +122,22 @@ app.post('/viewUsers', (req,res) =>{
             email: req.body.email,
             age: req.body.age
         };
-
         assert.equal(null, err);
-        console.log("Connected successfully to server");
-
         collection.insertOne({newUser}, function(err, result) {
             assert.equal(err, null);
-            console.log("Inserted document into the collection");
         });
         collection.find({}).toArray(function(err, docs) {
             assert.equal(err, null);
-            console.log("Found the following records");
-            console.log(docs);
             res.render('allUsers', ({
-                usersInfo: docs
+                usersInfo: docs.map(user =>
+                  ({
+                    _id: user._id,
+                    userId: user.newUser.userId,
+                    name: user.newUser.name,
+                    email: user.newUser.email,
+                    age: user.newUser.age,
+
+                  }))
             }));
         });
         client.close();
@@ -116,20 +146,32 @@ app.post('/viewUsers', (req,res) =>{
 });
 
 app.post('/users', (req, res) =>{
-    for(let i = 0; i < users.length; i++){
-        if(+req.body.id === users[i].id){
-            users[i] = {
-                id: users[i].id,
-                userId: req.body.userID,
-                name: req.body.name,
-                email: req.body.email,
-                age: req.body.age
-            };
-        }
-    }
-    res.render('allUsers', {
-        usersInfo: users
+
+    MongoClient.connect(url, function(err, client) {
+        const db = client.db(dbName);
+        const collection = db.collection('users');
+        let query = {"newUser.userId": req.body.userID};
+        let newValues = { $set: {newUser: {
+                'userId' : req.body.userID,
+                'name' : req.body.name,
+                'email' : req.body.email,
+                'age' : req.body.age,
+            }}};
+
+        assert.equal(null, err);
+
+        collection.updateOne(query, newValues, function(err, res) {
+            if (err) throw err;
+            console.log("1 document updated");
+        });
+        collection.deleteMany({"newUser.userId": null}, function(err, result) {
+            assert.equal(err, null);
+        });
+        client.close();
+        res.redirect('/');
     });
+
+
 });
 
 app.listen(port,() =>{

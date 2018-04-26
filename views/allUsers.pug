@@ -19,8 +19,8 @@ block bodyContent
                 td= data.email
                 td= data.age
                 td
-                    a(href='/edit/'+data._id)= 'Edit'
+                    a(href='/edit/'+ data.userId)= 'Edit'
                 td
-                    a(href='/delete/'+data._id+'') Delete
+                    a(href='/delete/'+ data.userId +'') Delete
     button(class='addUser')
         a(href='http://localhost:2000/addUser', id='back') Add New User
