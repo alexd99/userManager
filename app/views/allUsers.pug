@@ -1,0 +1,43 @@
+extends layout/layout
+block headContent
+    title View Users
+
+block bodyContent
+    div(id='mainContent')
+        h1 View Users
+
+        button(class='addUser')
+            a(href='http://localhost:2000/addUser', id='back') Add New User
+
+        button(class='addUser')
+            a(href='http://localhost:2000/', id='viewAll') View All
+
+        br
+        br
+
+        form(method='POST', action='/search')
+            input(id='search', type='text', name='search' placeholder='Search', required)
+            input(type='submit', value='Search')
+
+        table
+            tr
+                th
+                    a(href='/sort/userId') User ID
+                th
+                    a(href='/sort/name') Name
+                th
+                    a(href='/sort/email') Email
+                th
+                    a(href='/sort/age') Age
+                th
+                th
+            each data in usersInfo
+                tr
+                    td= data.userId
+                    td= data.name
+                    td= data.email
+                    td= data.age
+                    td
+                        a(href='/edit/'+ data.userId)= 'Edit'
+                    td
+                        a(href='/delete/'+ data.userId +'') Delete

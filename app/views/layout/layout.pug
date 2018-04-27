@@ -2,18 +2,20 @@ doctype html
 html
     head
         block headContent
-        link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.0.10/css/all.css', integrity='sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg', crossorigin='anonymous')
+        link(rel='icon', href='../favicon.png')
+        link(href="https://fonts.googleapis.com/css?family=Roboto", rel='stylesheet')
         style.
             body, html {
                 padding: 0;
                 margin: 0;
                 width: 100%;
                 height: auto;
+                font-family: 'Roboto', sans-serif;
+                text-align: center;
             }
             table {
                 border-collapse: collapse;
-                margin: 5px auto 15px 5px;
-                background-color: #fff;
+                margin: 15px auto 0 auto;
             }
 
             table, th, td {
@@ -21,13 +23,25 @@ html
                 padding: 5px;
                 text-align: center;
             }
+            th{
+                background-color: #212429;
+            }
+            th>a{
+                color: #dfdfdf;
+            }
+            tr:nth-child(even) {background-color: #fff;}
+            tr:nth-child(odd) {background-color: #eaeaea;}
             a {
                 text-decoration: none;
                 color: black;
                 cursor: pointer;
             }
+            button,input[type=submit]{
+                cursor: pointer;
+            }
             .rowColumn {
                 width: 250px;
+                margin: auto;
             }
             .row {
                 display: flex;
@@ -70,8 +84,8 @@ html
                 text-align: center;
                 cursor: pointer;
             }
-
-
-
+            #mainContent {
+                margin: auto;
+            }
     body
         block bodyContent

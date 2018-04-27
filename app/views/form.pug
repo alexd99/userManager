@@ -1,9 +1,10 @@
 extends layout/layout
 block headContent
-    title Add Person
+    title Add User
 
 block bodyContent
-    h1 Add Person
+    h1 Add User
+
     form(method='POST', action='/viewUsers')
         div(class='rowColumn')
             div(class='row')
@@ -20,3 +21,5 @@ block bodyContent
                 input(id='age', class='formInput', type='number' max='120', name='age' required)
             div
                 input(type='submit', value='Add', id='addPerson')
+    a(href='http://localhost:2000/')
+        button Cancel

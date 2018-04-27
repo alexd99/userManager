@@ -1,0 +1,90 @@
+{ 
+    "_id" : ObjectId("5ae21bd465d04d050bae632e"), 
+    "newUser" : {
+        "userId" : "63E8AQSEWM", 
+        "name" : "Alex Dahl", 
+        "email" : "alexdahl@gmail.com", 
+        "age" : "18"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21bf965d04d050bae632f"), 
+    "newUser" : {
+        "userId" : "XMK2QAH2R5", 
+        "name" : "Daniel Byerly", 
+        "email" : "daniel.byerly@dayrep.com", 
+        "age" : "36"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21c1f65d04d050bae6330"), 
+    "newUser" : {
+        "userId" : "HO4B9G6S1C", 
+        "name" : "Felicia Young", 
+        "email" : "felicia_d_young@rhyta.com", 
+        "age" : "75"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21c3665d04d050bae6331"), 
+    "newUser" : {
+        "userId" : "9SQKOH4ITR", 
+        "name" : "Sam Dahl", 
+        "email" : "samd@hotmail.com", 
+        "age" : "18"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21c8465d04d050bae6333"), 
+    "newUser" : {
+        "userId" : "IAJF6B8ALJ", 
+        "name" : "Howard J. Morillo", 
+        "email" : "howard@jourrapide.com", 
+        "age" : "54"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21cb865d04d050bae6334"), 
+    "newUser" : {
+        "userId" : "9ES5PQSAAG", 
+        "name" : "Julie E. Meadows", 
+        "email" : "meadows@teleworm.us", 
+        "age" : "22"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21d2865d04d050bae6338"), 
+    "newUser" : {
+        "userId" : "GJGNUBTUVX", 
+        "name" : "Geneva Wilson", 
+        "email" : "geneva-d-wilson@gmail.com", 
+        "age" : "31"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21d7165d04d050bae6339"), 
+    "newUser" : {
+        "userId" : "NSSPUSGH2G", 
+        "name" : "Mark C. Shaner", 
+        "email" : "shaner@rhyta.com", 
+        "age" : "65"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21e80e6b412053dae2dd6"), 
+    "newUser" : {
+        "userId" : "HR18AUNCLX", 
+        "name" : "Sharon W. Milewski", 
+        "email" : "sharonw@hotmail.com", 
+        "age" : "59"
+    }
+}
+{ 
+    "_id" : ObjectId("5ae21eace6b412053dae2dd7"), 
+    "newUser" : {
+        "userId" : "CKYYJE4FLU", 
+        "name" : "Brian Agnew", 
+        "email" : "agnew@gmail.com", 
+        "age" : "45"
+    }
+}
